@@ -9,7 +9,6 @@ import (
 	"github.com/honeynil/honey-task/slices"
 )
 
-// Topic представляет тему с задачами
 type Topic struct {
 	Name        string
 	Tasks       map[int]func()
@@ -22,15 +21,8 @@ var topics = map[string]Topic{
 		Name:        "slices",
 		Tasks:       slices.GetTasks(),
 		Count:       slices.Count(),
-		Description: "Слайсы в Go - 50 задач",
+		Description: "Слайсы в go",
 	},
-	// Здесь можно добавлять новые темы:
-	// "maps": {
-	//     Name:        "maps",
-	//     Tasks:       maps.GetTasks(),
-	//     Count:       maps.Count(),
-	//     Description: "Maps в Go - задачи",
-	// },
 }
 
 func main() {
@@ -41,7 +33,6 @@ func main() {
 
 	topicName := os.Args[1]
 
-	// Специальная команда для списка тем
 	if topicName == "list" {
 		listTopics()
 		return
@@ -54,24 +45,16 @@ func main() {
 		return
 	}
 
-	// Если нет аргументов после темы, показываем справку по теме
 	if len(os.Args) < 3 {
 		printTopicHelp(topic)
 		return
 	}
 
-	// Обработка команды "all"
-	if os.Args[2] == "all" {
-		runAllTasks(topic)
-		return
-	}
-
-	// Запуск конкретных задач
 	runTasks(topic, os.Args[2:])
 }
 
 func printHelp() {
-	fmt.Println("🎯 Go Practice Tasks - Практические задачи по Go")
+	fmt.Println("Go Practice Tasks - Практические задачи по Go")
 	fmt.Println("\nИспользование:")
 	fmt.Println("  go run main.go <тема> <задачи>")
 	fmt.Println("\nКоманды:")
@@ -91,7 +74,7 @@ func printHelp() {
 }
 
 func listTopics() {
-	fmt.Println("📚 Доступные темы:\n")
+	fmt.Printf("Доступные темы:\n")
 	for name, topic := range topics {
 		fmt.Printf("  %-10s - %s (%d задач)\n", name, topic.Description, topic.Count)
 	}
@@ -99,7 +82,7 @@ func listTopics() {
 }
 
 func printTopicHelp(topic Topic) {
-	fmt.Printf("📖 %s\n\n", topic.Description)
+	fmt.Printf("%s\n\n", topic.Description)
 	fmt.Printf("Доступно задач: %d\n\n", topic.Count)
 	fmt.Println("Использование:")
 	fmt.Printf("  go run main.go %s <номер>          - запустить одну задачу\n", topic.Name)
@@ -110,29 +93,17 @@ func printTopicHelp(topic Topic) {
 	fmt.Printf("  go run main.go %s 1 5 10\n", topic.Name)
 }
 
-func runAllTasks(topic Topic) {
-	fmt.Printf("\n🚀 Запуск всех задач: %s\n", topic.Description)
-	for i := 1; i <= topic.Count; i++ {
-		fmt.Printf("\n" + strings.Repeat("=", 50) + "\n")
-		fmt.Printf("ЗАДАЧА %d\n", i)
-		fmt.Printf(strings.Repeat("=", 50) + "\n\n")
-		if task, ok := topic.Tasks[i]; ok {
-			task()
-		}
-	}
-}
-
 func runTasks(topic Topic, args []string) {
 	for _, arg := range args {
 		num, err := strconv.Atoi(arg)
 		if err != nil || num < 1 || num > topic.Count {
-			fmt.Printf("❌ Неверный номер задачи: %s (доступны 1-%d)\n", arg, topic.Count)
+			fmt.Printf("Неверный номер задачи: %s (доступны 1-%d)\n", arg, topic.Count)
 			continue
 		}
 
-		fmt.Printf("\n" + strings.Repeat("=", 50) + "\n")
+		fmt.Println("\n" + strings.Repeat("=", 50))
 		fmt.Printf("ЗАДАЧА %d\n", num)
-		fmt.Printf(strings.Repeat("=", 50) + "\n\n")
+		fmt.Println(strings.Repeat("=", 50) + "\n")
 
 		if task, ok := topic.Tasks[num]; ok {
 			task()
