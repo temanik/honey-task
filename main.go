@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/honeynil/honey-task/pointers"
 	"github.com/honeynil/honey-task/slices"
 )
 
@@ -22,6 +23,12 @@ var topics = map[string]Topic{
 		Tasks:       slices.GetTasks(),
 		Count:       slices.Count(),
 		Description: "Слайсы в go",
+	},
+	"pointers": {
+		Name:        "pointers",
+		Tasks:       pointers.GetTasks(),
+		Count:       pointers.Count(),
+		Description: "Указатели в go",
 	},
 }
 

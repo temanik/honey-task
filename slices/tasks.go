@@ -1,4 +1,3 @@
-// Package slices содержит 50 задач для изучения работы слайсов в Go
 package slices
 
 import (
@@ -6,7 +5,6 @@ import (
 	"reflect"
 )
 
-// GetTasks возвращает map всех доступных задач
 func GetTasks() map[int]func() {
 	return map[int]func(){
 		1: a, 2: b, 3: c, 4: d, 5: e, 6: f, 7: g, 8: h, 9: i, 10: j,
@@ -17,7 +15,6 @@ func GetTasks() map[int]func() {
 	}
 }
 
-// Count возвращает количество задач
 func Count() int {
 	return 50
 }
