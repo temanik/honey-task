@@ -9,6 +9,7 @@ import (
 	"github.com/honeynil/honey-task/maps"
 	"github.com/honeynil/honey-task/pointers"
 	"github.com/honeynil/honey-task/slices"
+	"github.com/honeynil/honey-task/structs"
 )
 
 type Topic struct {
@@ -36,6 +37,12 @@ var topics = map[string]Topic{
 		Tasks:       maps.GetTasks(),
 		Count:       maps.Count,
 		Description: "Maps в go",
+	},
+	"structs": {
+		Name:        "structs",
+		Tasks:       structs.GetTasks(),
+		Count:       structs.Count,
+		Description: "Структуры в go",
 	},
 }
 

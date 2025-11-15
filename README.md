@@ -8,12 +8,12 @@
 - **[slices](slices/)** - Слайсы в Go (50 задач)
 - **[maps](maps/)** - Maps в Go (50 задач)
 - **[pointers](pointers/)** - Указатели в Go (50 задач)
-- _struct_ - структуры (next)
+- **[structs](structs/)** - Структуры в Go (50 задач)
 - _interfaces_ - интерфейсы (soon)
 - _defer|panic|recover_ - механизмы восстановления (soon)
 - _errors_ - ошибки (soon)
-- _strings_ - строки
-- _func_ - функции
+- _strings_ - строки (its needed?)
+- _func_ - функции (its needed?)
 
 ### concurrency block
 - _channels_ - каналы и concurrency (soon)
