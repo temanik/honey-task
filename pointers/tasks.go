@@ -1,3 +1,4 @@
+// Package pointers smth task
 package pointers
 
 import (
@@ -55,6 +56,8 @@ func (b *Box) setValue(v int) {
 	b.value = v
 }
 
+const Count = 50
+
 func GetTasks() map[int]func() {
 	return map[int]func(){
 		1: task1, 2: task2, 3: task3, 4: task4, 5: task5, 6: task6, 7: task7, 8: task8, 9: task9, 10: task10,
@@ -65,11 +68,7 @@ func GetTasks() map[int]func() {
 	}
 }
 
-func Count() int {
-	return 50
-}
-
-// ЗАДАЧА 1: Что выведет? (основы указателей)
+// ЗАДАЧА 1: Что выведет?
 func task1() {
 	x := 10
 	p := &x
@@ -78,14 +77,14 @@ func task1() {
 	fmt.Println(x, *p)
 }
 
-// ЗАДАЧА 2: Что выведет? (nil pointer)
+// ЗАДАЧА 2: Что выведет?
 func task2() {
 	var p *int
 	fmt.Println(p)
 	fmt.Println(p == nil)
 }
 
-// ЗАДАЧА 3: Что выведет? (new function)
+// ЗАДАЧА 3: Что выведет?
 func task3() {
 	p := new(int)
 	fmt.Println(*p)
@@ -93,7 +92,7 @@ func task3() {
 	fmt.Println(*p)
 }
 
-// ЗАДАЧА 4: Что выведет? (указатели на структуры)
+// ЗАДАЧА 4: Что выведет?
 func task4() {
 	p := &Person{name: "Alice", age: 30}
 	fmt.Println(p.name, p.age)
@@ -101,7 +100,7 @@ func task4() {
 	fmt.Println(p.name, p.age)
 }
 
-// ЗАДАЧА 5: Что выведет? (передача по значению vs по указателю)
+// ЗАДАЧА 5: Что выведет?
 func task5() {
 	x := 10
 	changeValue(x)
@@ -116,7 +115,7 @@ func changePointer(ptr *int) {
 	*ptr = 20
 }
 
-// ЗАДАЧА 6: Что выведет? (указатели на одно значение)
+// ЗАДАЧА 6: Что выведет?
 func task6() {
 	x := 10
 	p1 := &x
@@ -125,7 +124,7 @@ func task6() {
 	fmt.Println(*p2)
 }
 
-// ЗАДАЧА 7: Что выведет? (адреса)
+// ЗАДАЧА 7: Что выведет?
 func task7() {
 	x := 10
 	p := &x
@@ -133,7 +132,7 @@ func task7() {
 	fmt.Println(&x == &x)
 }
 
-// ЗАДАЧА 8: Что выведет? (указатель на указатель)
+// ЗАДАЧА 8: Что выведет?
 func task8() {
 	x := 10
 	p := &x
@@ -143,13 +142,13 @@ func task8() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 9: Что выведет? (zero value структуры)
+// ЗАДАЧА 9: Что выведет?
 func task9() {
 	p := new(Point)
 	fmt.Println(*p)
 }
 
-// ЗАДАЧА 10: Что выведет? (сравнение указателей)
+// ЗАДАЧА 10: Что выведет?
 func task10() {
 	x, y := 10, 10
 	px := &x
@@ -158,7 +157,7 @@ func task10() {
 	fmt.Println(*px == *py)
 }
 
-// ЗАДАЧА 11: Что выведет? (указатель в цикле)
+// ЗАДАЧА 11: Что выведет?
 func task11() {
 	arr := [3]int{1, 2, 3}
 	var ptrs []*int
@@ -171,7 +170,7 @@ func task11() {
 	fmt.Println()
 }
 
-// ЗАДАЧА 12: Что выведет? (указатель на локальную переменную)
+// ЗАДАЧА 12: Что выведет?
 func task12() {
 	p := getPointer()
 	fmt.Println(*p)
@@ -181,7 +180,7 @@ func getPointer() *int {
 	return &x
 }
 
-// ЗАДАЧА 13: Что выведет? (методы с pointer receiver)
+// ЗАДАЧА 13: Что выведет?
 func task13() {
 	c := Counter{count: 0}
 	c.increment()
@@ -190,7 +189,7 @@ func task13() {
 	fmt.Println(c.count)
 }
 
-// ЗАДАЧА 14: Что выведет? (nil pointer dereference - panic!)
+// ЗАДАЧА 14: Что выведет?
 func task14() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -203,7 +202,7 @@ func task14() {
 	fmt.Println("After panic")
 }
 
-// ЗАДАЧА 15: Что выведет? (указатель на массив vs слайс)
+// ЗАДАЧА 15: Что выведет?
 func task15() {
 	arr := [3]int{1, 2, 3}
 	p := &arr
@@ -211,7 +210,7 @@ func task15() {
 	fmt.Println(arr)
 }
 
-// ЗАДАЧА 16: Что выведет? (swap через указатели)
+// ЗАДАЧА 16: Что выведет?
 func task16() {
 	x, y := 10, 20
 	swap(&x, &y)
@@ -221,7 +220,7 @@ func swap(a, b *int) {
 	*a, *b = *b, *a
 }
 
-// ЗАДАЧА 17: Что выведет? (указатель на элемент слайса)
+// ЗАДАЧА 17: Что выведет?
 func task17() {
 	s := []int{1, 2, 3}
 	p := &s[1]
@@ -229,7 +228,7 @@ func task17() {
 	fmt.Println(s)
 }
 
-// ЗАДАЧА 18: Что выведет? (указатели в структуре)
+// ЗАДАЧА 18: Что выведет?
 func task18() {
 	n1 := Node{value: 1}
 	n2 := Node{value: 2}
@@ -237,7 +236,7 @@ func task18() {
 	fmt.Println(n1.value, n1.next.value)
 }
 
-// ЗАДАЧА 19: Что выведет? (модификация через функцию)
+// ЗАДАЧА 19: Что выведет?
 func task19() {
 	p := Person{name: "Bob", age: 25}
 	updatePerson19(&p)
@@ -248,7 +247,7 @@ func updatePerson19(p *Person) {
 	p.age = 30
 }
 
-// ЗАДАЧА 20: Что выведет? (указатель на bool)
+// ЗАДАЧА 20: Что выведет?
 func task20() {
 	b := true
 	p := &b
@@ -256,7 +255,7 @@ func task20() {
 	fmt.Println(b, *p)
 }
 
-// ЗАДАЧА 21: Что выведет? (указатель на string)
+// ЗАДАЧА 21: Что выведет?
 func task21() {
 	s := "hello"
 	p := &s
@@ -264,7 +263,7 @@ func task21() {
 	fmt.Println(s, *p)
 }
 
-// ЗАДАЧА 22: Что выведет? (slice of pointers)
+// ЗАДАЧА 22: Что выведет?
 func task22() {
 	a, b, c := 1, 2, 3
 	ptrs := []*int{&a, &b, &c}
@@ -274,7 +273,7 @@ func task22() {
 	fmt.Println(a, b, c)
 }
 
-// ЗАДАЧА 23: Что выведет? (указатель на interface{})
+// ЗАДАЧА 23: Что выведет?
 func task23() {
 	var x interface{} = 10
 	p := &x
@@ -282,7 +281,7 @@ func task23() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 24: Что выведет? (копирование структуры с указателями)
+// ЗАДАЧА 24: Что выведет?
 func task24() {
 	type Data24 struct {
 		value *int
@@ -294,7 +293,7 @@ func task24() {
 	fmt.Println(*d1.value)
 }
 
-// ЗАДАЧА 25: Что выведет? (указатель в map)
+// ЗАДАЧА 25: Что выведет?
 func task25() {
 	m := make(map[string]*int)
 	x := 10
@@ -303,7 +302,7 @@ func task25() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 26: Что выведет? (указатель на map)
+// ЗАДАЧА 26: Что выведет?
 func task26() {
 	m := map[string]int{"a": 1}
 	p := &m
@@ -311,14 +310,14 @@ func task26() {
 	fmt.Println(m["a"])
 }
 
-// ЗАДАЧА 27: Что выведет? (указатель на функцию - не совсем указатель)
+// ЗАДАЧА 27: Что выведет?
 func task27() {
 	f := func(x int) int { return x * 2 }
 	result := f(5)
 	fmt.Println(result)
 }
 
-// ЗАДАЧА 28: Что выведет? (pointer receiver автоматическая разыменовка)
+// ЗАДАЧА 28: Что выведет?
 func task28() {
 	c := Counter{count: 5}
 	c.doublePtr()
@@ -329,7 +328,7 @@ func task28() {
 	fmt.Println(c.count)
 }
 
-// ЗАДАЧА 29: Что выведет? (указатель на канал)
+// ЗАДАЧА 29: Что выведет?
 func task29() {
 	ch := make(chan int, 1)
 	p := &ch
@@ -337,7 +336,7 @@ func task29() {
 	fmt.Println(<-*p)
 }
 
-// ЗАДАЧА 30: Что выведет? (new vs make)
+// ЗАДАЧА 30: Что выведет?
 func task30() {
 	p1 := new([]int)
 	fmt.Println(*p1 == nil)
@@ -346,7 +345,7 @@ func task30() {
 	fmt.Println(*p2 == nil)
 }
 
-// ЗАДАЧА 31: Что выведет? (указатели в range)
+// ЗАДАЧА 31: Что выведет?
 func task31() {
 	nums := []int{1, 2, 3}
 	var ptrs []*int
@@ -359,7 +358,7 @@ func task31() {
 	fmt.Println()
 }
 
-// ЗАДАЧА 32: Что выведет? (исправленная версия задачи 31)
+// ЗАДАЧА 32: Что выведет?
 func task32() {
 	nums := []int{1, 2, 3}
 	var ptrs []*int
@@ -372,7 +371,7 @@ func task32() {
 	fmt.Println()
 }
 
-// ЗАДАЧА 33: Что выведет? (указатель на slice - изменение length)
+// ЗАДАЧА 33: Что выведет?
 func task33() {
 	s := []int{1, 2, 3}
 	appendToSlicePtr(&s, 4)
@@ -382,7 +381,7 @@ func appendToSlicePtr(s *[]int, val int) {
 	*s = append(*s, val)
 }
 
-// ЗАДАЧА 34: Что выведет? (указатель внутри goroutine)
+// ЗАДАЧА 34: Что выведет?
 func task34() {
 	x := 0
 	done := make(chan bool)
@@ -394,7 +393,7 @@ func task34() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 35: Что выведет? (множественные указатели на структуру)
+// ЗАДАЧА 35: Что выведет?
 func task35() {
 	type Box struct{ value int }
 	b := Box{value: 10}
@@ -403,13 +402,13 @@ func task35() {
 	fmt.Println(p2.value)
 }
 
-// ЗАДАЧА 36: Что выведет? (указатель на анонимную структуру)
+// ЗАДАЧА 36: Что выведет?
 func task36() {
 	p := &Point{x: 10, y: 20}
 	fmt.Println(p.x, p.y)
 }
 
-// ЗАДАЧА 37: Что выведет? (возврат указателя на литерал)
+// ЗАДАЧА 37: Что выведет?
 func task37() {
 	p := getIntPtr(100)
 	fmt.Println(*p)
@@ -418,13 +417,13 @@ func getIntPtr(x int) *int {
 	return &x
 }
 
-// ЗАДАЧА 38: Что выведет? (указатель на composite literal)
+// ЗАДАЧА 38: Что выведет?
 func task38() {
 	p := &Point{x: 1, y: 2}
 	fmt.Println(*p)
 }
 
-// ЗАДАЧА 39: Что выведет? (изменение через метод)
+// ЗАДАЧА 39: Что выведет?
 func task39() {
 	b := Box{value: 5}
 	b.setValue(10)
@@ -433,7 +432,7 @@ func task39() {
 	fmt.Println(b.value)
 }
 
-// ЗАДАЧА 40: Что выведет? (указатель на элемент массива)
+// ЗАДАЧА 40: Что выведет?
 func task40() {
 	arr := [3]int{1, 2, 3}
 	p := &arr[1]
@@ -441,13 +440,13 @@ func task40() {
 	fmt.Println(arr)
 }
 
-// ЗАДАЧА 41: Что выведет? (nil pointer в структуре)
+// ЗАДАЧА 41: Что выведет?
 func task41() {
 	n := Node{value: 1, next: nil}
 	fmt.Println(n.next == nil)
 }
 
-// ЗАДАЧА 42: Что выведет? (defer и указатели)
+// ЗАДАЧА 42: Что выведет?
 func task42() {
 	x := 1
 	defer fmt.Println(*getPtr(&x))
@@ -457,8 +456,9 @@ func getPtr(p *int) *int {
 	return p
 }
 
-// ЗАДАЧА 43: Что выведет? (указатель на результат функции - невозможно!)
+// ЗАДАЧА 43: Что выведет?
 func task43() {
+
 	x := getValue()
 	p := &x
 	fmt.Println(*p)
@@ -467,7 +467,7 @@ func getValue() int {
 	return 42
 }
 
-// ЗАДАЧА 44: Что выведет? (цепочка указателей)
+// ЗАДАЧА 44: Что выведет?
 func task44() {
 	n3 := &Node{value: 3, next: nil}
 	n2 := &Node{value: 2, next: n3}
@@ -475,7 +475,7 @@ func task44() {
 	fmt.Println(n1.value, n1.next.value, n1.next.next.value)
 }
 
-// ЗАДАЧА 45: Что выведет? (указатель меняет адрес)
+// ЗАДАЧА 45: Что выведет?
 func task45() {
 	x, y := 10, 20
 	p := &x
@@ -484,7 +484,7 @@ func task45() {
 	fmt.Println(*p)
 }
 
-// ЗАДАЧА 46: Что выведет? (встроенная структура и указатели)
+// ЗАДАЧА 46: Что выведет?
 func task46() {
 	o := Outer{Inner: Inner{value: 42}, name: "test"}
 	p := &o.Inner
@@ -492,7 +492,7 @@ func task46() {
 	fmt.Println(o.value)
 }
 
-// ЗАДАЧА 47: Что выведет? (map значений-указателей)
+// ЗАДАЧА 47: Что выведет?
 func task47() {
 	type Person47 struct{ name string }
 	m := map[int]*Person47{
@@ -503,7 +503,7 @@ func task47() {
 	fmt.Println(m[1].name)
 }
 
-// ЗАДАЧА 48: Что выведет? (указатель после append)
+// ЗАДАЧА 48: Что выведет?
 func task48() {
 	s := []int{1, 2, 3}
 	p := &s[1]
@@ -513,7 +513,7 @@ func task48() {
 	fmt.Println(s)
 }
 
-// ЗАДАЧА 49: Что выведет? (копирование vs указатель в функции)
+// ЗАДАЧА 49: Что выведет?
 func task49() {
 	d := Data{values: []int{1, 2, 3}}
 	modifyDataValue49(d)
@@ -528,7 +528,7 @@ func modifyDataPointer49(d *Data) {
 	d.values[1] = 200
 }
 
-// ЗАДАЧА 50: Что выведет? (указатели и escape analysis)
+// ЗАДАЧА 50: Что выведет?
 func task50() {
 	p1 := createOnStack()
 	p2 := createOnHeap()
@@ -536,8 +536,8 @@ func task50() {
 }
 func createOnStack() *int {
 	x := 10
-	return &x // escape to heap
+	return &x
 }
 func createOnHeap() *int {
-	return new(int) // allocated on heap
+	return new(int)
 }

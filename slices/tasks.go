@@ -1,9 +1,12 @@
+// Package slices some tasks
 package slices
 
 import (
 	"fmt"
 	"reflect"
 )
+
+const Count = 50
 
 func GetTasks() map[int]func() {
 	return map[int]func(){
@@ -13,10 +16,6 @@ func GetTasks() map[int]func() {
 		31: ae, 32: af, 33: ag, 34: ah, 35: ai, 36: aj, 37: ak, 38: al, 39: am, 40: an,
 		41: ao, 42: ap, 43: aq, 44: ar, 45: as, 46: at, 47: au, 48: av, 49: aw, 50: ax,
 	}
-}
-
-func Count() int {
-	return 50
 }
 
 // ЗАДАЧА 1 Что выведет?
@@ -36,7 +35,7 @@ func a() {
 	fmt.Println(y, z)
 }
 
-// ЗАДАЧА 2: Что выведет? (nil slice vs empty slice)
+// ЗАДАЧА 2: Что выведет?
 func b() {
 	var x []int
 	y := []int{}
@@ -45,7 +44,7 @@ func b() {
 	fmt.Println(cap(x), cap(y))
 }
 
-// ЗАДАЧА 3: Что выведет? (append и capacity)
+// ЗАДАЧА 3: Что выведет?
 func c() {
 	x := make([]int, 0, 5)
 	fmt.Println(len(x), cap(x))
@@ -55,7 +54,7 @@ func c() {
 	fmt.Println(len(x), cap(x))
 }
 
-// ЗАДАЧА 4: Что выведет? (slice из slice)
+// ЗАДАЧА 4: Что выведет?
 func d() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:3]
@@ -64,7 +63,7 @@ func d() {
 	fmt.Println(y)
 }
 
-// ЗАДАЧА 5: Что выведет? (append к подслайсу)
+// ЗАДАЧА 5: Что выведет?
 func e() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:3]
@@ -73,7 +72,7 @@ func e() {
 	fmt.Println(y)
 }
 
-// ЗАДАЧА 6: Что выведет? (копирование слайсов)
+// ЗАДАЧА 6: Что выведет?
 func f() {
 	x := []int{1, 2, 3}
 	y := x
@@ -81,7 +80,7 @@ func f() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 7: Что выведет? (copy функция)
+// ЗАДАЧА 7: Что выведет?
 func g() {
 	x := []int{1, 2, 3, 4, 5}
 	y := make([]int, 2)
@@ -89,14 +88,14 @@ func g() {
 	fmt.Println(y)
 }
 
-// ЗАДАЧА 8: Что выведет? (copy в обратном порядке)
+// ЗАДАЧА 8: Что выведет?
 func h() {
 	x := []int{1, 2, 3}
 	copy(x, x[1:])
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 9: Что выведет? (range и указатели)
+// ЗАДАЧА 9: Что выведет?
 func i() {
 	x := []int{1, 2, 3}
 	for i, v := range x {
@@ -115,7 +114,7 @@ func j() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 11: Что выведет? (append и underlying array)
+// ЗАДАЧА 11: Что выведет?
 func k() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[:3]
@@ -124,7 +123,7 @@ func k() {
 	fmt.Println(z)
 }
 
-// ЗАДАЧА 12: Что выведет? (make с len и cap)
+// ЗАДАЧА 12: Что выведет?
 func l() {
 	x := make([]int, 3, 5)
 	x[0] = 1
@@ -133,7 +132,7 @@ func l() {
 	fmt.Println(len(x), cap(x))
 }
 
-// ЗАДАЧА 13: Что выведет? (слайс из массива)
+// ЗАДАЧА 13: Что выведет?
 func m() {
 	arr := [5]int{1, 2, 3, 4, 5}
 	x := arr[1:3]
@@ -142,14 +141,14 @@ func m() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 14: Что выведет? (zero value)
+// ЗАДАЧА 14: Что выведет?
 func n() {
 	var x []int
 	x = append(x, 1)
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 15: Что выведет? (multiple appends)
+// ЗАДАЧА 15: Что выведет?
 func o() {
 	x := []int{1, 2}
 	y := append(x, 3)
@@ -158,7 +157,7 @@ func o() {
 	fmt.Println(x, y, z, w)
 }
 
-// ЗАДАЧА 16: Что выведет? (slice equality)
+// ЗАДАЧА 16: Что выведет?
 func p() {
 	x := []int{1, 2, 3}
 	y := []int{1, 2, 3}
@@ -166,14 +165,14 @@ func p() {
 	fmt.Println(reflect.DeepEqual(x, y))
 }
 
-// ЗАДАЧА 17: Что выведет? (full slice expression)
+// ЗАДАЧА 17: Что выведет?
 func q() {
 	x := make([]int, 3, 10)
 	y := x[:2:2]
 	fmt.Println(len(y), cap(y))
 }
 
-// ЗАДАЧА 18: Что выведет? (append variadic)
+// ЗАДАЧА 18: Что выведет?
 func r() {
 	x := []int{1, 2}
 	y := []int{3, 4, 5}
@@ -181,7 +180,7 @@ func r() {
 	fmt.Println(x, "|", len(x), cap(x))
 }
 
-// ЗАДАЧА 19: Что выведет? (delete element)
+// ЗАДАЧА 19: Что выведет?
 func s() {
 	x := []int{1, 2, 3, 4, 5}
 	i := 2
@@ -189,7 +188,7 @@ func s() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 20: Что выведет? (reverse slice)
+// ЗАДАЧА 20: Что выведет?
 func t() {
 	x := []int{1, 2, 3, 4, 5}
 	for i := 0; i < len(x)/2; i++ {
@@ -198,7 +197,7 @@ func t() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 21: Что выведет? (capacity после append)
+// ЗАДАЧА 21: Что выведет?
 func u() {
 	x := make([]int, 0, 4)
 	fmt.Println(cap(x))
@@ -208,7 +207,7 @@ func u() {
 	fmt.Println(cap(x))
 }
 
-// ЗАДАЧА 22: Что выведет? (reslicing)
+// ЗАДАЧА 22: Что выведет?
 func v() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[2:]
@@ -216,7 +215,7 @@ func v() {
 	fmt.Println(z)
 }
 
-// ЗАДАЧА 23: Что выведет? (shared underlying array)
+// ЗАДАЧА 23: Что выведет?
 func w() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:3]
@@ -226,7 +225,7 @@ func w() {
 	fmt.Println(z)
 }
 
-// ЗАДАЧА 24: Что выведет? (loop append)
+// ЗАДАЧА 24: Что выведет?
 func x() {
 	var result []int
 	for i := 0; i < 5; i++ {
@@ -236,7 +235,7 @@ func x() {
 	fmt.Println(len(result), cap(result))
 }
 
-// ЗАДАЧА 25: Что выведет? (insert element)
+// ЗАДАЧА 25: Что выведет?
 func y() {
 	x := []int{1, 2, 4, 5}
 	i := 2
@@ -244,7 +243,7 @@ func y() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 26: Что выведет? (filter slice)
+// ЗАДАЧА 26: Что выведет?
 func z() {
 	x := []int{1, 2, 3, 4, 5, 6, 7, 8}
 	result := x[:0]
@@ -258,14 +257,14 @@ func z() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 27: Что выведет? (2D slice)
+// ЗАДАЧА 27: Что выведет?
 func aa() {
 	x := [][]int{{1, 2}, {3, 4}}
 	x[0][0] = 100
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 28: Что выведет? (slice of pointers)
+// ЗАДАЧА 28: Что выведет?
 func ab() {
 	a, b := 1, 2
 	x := []*int{&a, &b}
@@ -274,7 +273,7 @@ func ab() {
 	fmt.Println(*x[0], *x[1])
 }
 
-// ЗАДАЧА 29: Что выведет? (append to nil)
+// ЗАДАЧА 29: Что выведет?
 func ac() {
 	var x []int
 	for i := 0; i < 3; i++ {
@@ -283,7 +282,7 @@ func ac() {
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 30: Что выведет? (slice bounds)
+// ЗАДАЧА 30: Что выведет?
 func ad() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:1]
@@ -291,7 +290,7 @@ func ad() {
 	fmt.Println(len(y))
 }
 
-// ЗАДАЧА 31: Что выведет? (modify in function)
+// ЗАДАЧА 31: Что выведет?
 func ae() {
 	x := []int{1, 2, 3}
 	modifySlice(x)
@@ -301,7 +300,7 @@ func modifySlice(s []int) {
 	s[0] = 100
 }
 
-// ЗАДАЧА 32: Что выведет? (append in function)
+// ЗАДАЧА 32: Что выведет?
 func af() {
 	x := []int{1, 2, 3}
 	appendToSlice(x)
@@ -311,7 +310,7 @@ func appendToSlice(s []int) {
 	s = append(s, 4)
 }
 
-// ЗАДАЧА 33: Что выведет? (string to slice)
+// ЗАДАЧА 33: Что выведет?
 func ag() {
 	s := "hello"
 	x := []byte(s)
@@ -320,7 +319,7 @@ func ag() {
 	fmt.Println(string(x))
 }
 
-// ЗАДАЧА 34: Что выведет? (runes)
+// ЗАДАЧА 34: Что выведет?
 func ah() {
 	s := "привет"
 	x := []rune(s)
@@ -328,7 +327,7 @@ func ah() {
 	fmt.Println(len(x))
 }
 
-// ЗАДАЧА 35: Что выведет? (grow capacity)
+// ЗАДАЧА 35: Что выведет?
 func ai() {
 	x := []int{}
 
@@ -339,7 +338,7 @@ func ai() {
 	}
 }
 
-// ЗАДАЧА 36: Что выведет? (prepend)
+// ЗАДАЧА 36: Что выведет?
 func aj() {
 	x := []int{2, 3, 4}
 	x = append([]int{1}, x...)
@@ -347,7 +346,7 @@ func aj() {
 	fmt.Print(len(x), cap(x))
 }
 
-// ЗАДАЧА 37: Что выведет? (clear slice pattern)
+// ЗАДАЧА 37: Что выведет?
 func ak() {
 	x := []int{1, 2, 3, 4, 5}
 	x = x[:0]
@@ -355,14 +354,14 @@ func ak() {
 	fmt.Println(len(x), cap(x))
 }
 
-// ЗАДАЧА 38: Что выведет? (copy overlapping)
+// ЗАДАЧА 38: Что выведет?
 func al() {
 	x := []int{1, 2, 3, 4, 5}
 	copy(x[2:], x[:3])
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 39: Что выведет? (slice от slice с capacity)
+// ЗАДАЧА 39: Что выведет?
 func am() {
 	x := make([]int, 3, 10)
 	x[0], x[1], x[2] = 1, 2, 3
@@ -370,7 +369,7 @@ func am() {
 	fmt.Println(len(y), cap(y))
 }
 
-// ЗАДАЧА 40: Что выведет? (append beyond capacity)
+// ЗАДАЧА 40: Что выведет?
 func an() {
 	x := make([]int, 2, 4)
 	x[0], x[1] = 1, 2
@@ -381,7 +380,7 @@ func an() {
 	fmt.Println("y: ", y, "|", "len: ", len(y), "|", "cap: ", cap(y))
 }
 
-// ЗАДАЧА 41: Что выведет? (multiple references)
+// ЗАДАЧА 41: Что выведет?
 func ao() {
 	x := []int{1, 2, 3}
 	y := x
@@ -393,7 +392,7 @@ func ao() {
 	fmt.Println(z)
 }
 
-// ЗАДАЧА 42: Что выведет? (range over nil)
+// ЗАДАЧА 42: Что выведет?
 func ap() {
 	var x []int
 	for i, v := range x {
@@ -402,7 +401,7 @@ func ap() {
 	fmt.Println("Done")
 }
 
-// ЗАДАЧА 43: Что выведет? (slice comparison with nil)
+// ЗАДАЧА 43: Что выведет?
 func aq() {
 	var x []int
 	y := []int{}
@@ -412,14 +411,14 @@ func aq() {
 	fmt.Println(len(y) == 0)
 }
 
-// ЗАДАЧА 44: Что выведет? (nested append)
+// ЗАДАЧА 44: Что выведет?
 func ar() {
 	x := []int{1, 2}
 	x = append(x, append([]int{3}, 4)...)
 	fmt.Println(x)
 }
 
-// ЗАДАЧА 45: Что выведет? (modify during range)
+// ЗАДАЧА 45: Что выведет?
 func as() {
 	x := []int{1, 2, 3}
 	fmt.Println("len: ", len(x), "cap: ", cap(x))
@@ -432,7 +431,7 @@ func as() {
 	fmt.Println(x, len(x), cap(x))
 }
 
-// ЗАДАЧА 46: Что выведет? (re-slice to larger)
+// ЗАДАЧА 46: Что выведет?
 func at() {
 	x := make([]int, 3, 10)
 	x[0], x[1], x[2] = 1, 2, 3
@@ -440,7 +439,7 @@ func at() {
 	fmt.Println(y)
 }
 
-// ЗАДАЧА 47: Что выведет? (pointer to slice element)
+// ЗАДАЧА 47: Что выведет?
 func au() {
 	x := []int{1, 2, 3}
 	p := &x[1]
@@ -450,7 +449,7 @@ func au() {
 	fmt.Println(p)
 }
 
-// ЗАДАЧА 48: Что выведет? (slice from slice with same start)
+// ЗАДАЧА 48: Что выведет?
 func av() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[2:4]
@@ -461,7 +460,7 @@ func av() {
 	fmt.Println(z)
 }
 
-// ЗАДАЧА 49: Что выведет? (compact/deduplicate pattern)
+// ЗАДАЧА 49: Что выведет?
 func aw() {
 	x := []int{1, 1, 2, 2, 3, 3}
 	j := 0
@@ -475,7 +474,7 @@ func aw() {
 	fmt.Println(result)
 }
 
-// ЗАДАЧА 50: Что выведет? (three-index slice)
+// ЗАДАЧА 50: Что выведет?
 func ax() {
 	x := make([]int, 5, 10)
 	for i := range x {

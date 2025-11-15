@@ -4,10 +4,29 @@
 
 ## Доступные темы
 
+### default block
 - **[slices](slices/)** - Слайсы в Go (50 задач)
-- _maps_ - Maps в Go (скоро)
-- _struct_ - структуры (скоро)
-- _pointers_ - указатели (скоро)
+- **[maps](maps/)** - Maps в Go (50 задач)
+- **[pointers](pointers/)** - Указатели в Go (50 задач)
+- _struct_ - структуры (next)
+- _interfaces_ - интерфейсы (soon)
+- _defer|panic|recover_ - механизмы восстановления (soon)
+- _errors_ - ошибки (soon)
+- _strings_ - строки
+- _func_ - функции
+
+### concurrency block
+- _channels_ - каналы и concurrency (soon)
+- _goroutines_ - горутины (soon)
+- _mutex_ - мьютексы (soon)
+- _context_ - контекст (soon)
+- _select_ - селект
+- _sync_ - работа с пакетом sync
+- _race cond_ - типичные проблемы и их решения
+
+### Practice block
+сборник ревью кода с собеседований (soon)
+типовые задачи на написание n-программы с собеседований (soon)
 
 ```bash
 # Запуск задачи
