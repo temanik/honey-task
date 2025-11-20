@@ -210,7 +210,7 @@ func task11() {
 	o := Outer{Label: "test"}
 	fmt.Println(o.Inner == nil)
 	fmt.Println(o.Label)
-	// fmt.Println(o.Value) // panic!
+	fmt.Println(o.Value)
 }
 
 // ЗАДАЧА 12: Что выведет?
@@ -576,7 +576,8 @@ func changePtr(pp **Person) {
 func task44() {
 	p := Point{10, 20}
 	fmt.Println(p.X, p.Y)
-	// q := Point{20} // ошибка: too few values
+	//q := Point{20} что тут будет?
+	//fmt.Println(q)
 }
 
 // ЗАДАЧА 45: Что выведет?
@@ -617,7 +618,7 @@ func task47() {
 // ЗАДАЧА 48: Что выведет?
 func task48() {
 	type Data struct {
-		Value int `json: "value" xml:"val"`
+		Value int    `json: "value" xml:"val"`
 		Name  string `json:"name"`
 	}
 	d := Data{Value: 42, Name: "test"}
