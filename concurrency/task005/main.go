@@ -26,12 +26,12 @@ const numJobs = 5
 const numWorkers = 3
 
 func main() {
-	//jobs := make(chan int, numJobs)
-	//results := make(chan int, numJobs)
-	//wg := sync.WaitGroup{}
+	jobs := make(chan int, numJobs)
+	results := make(chan int, numJobs)
+	wg := sync.WaitGroup{}
 
-	//multiplier := func(x int) int {
-	//return x * 10
+	multiplier := func(x int) int {
+	return x * 10
 }
 
 // напишите ваш код здесь
