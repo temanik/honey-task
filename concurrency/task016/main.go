@@ -10,9 +10,7 @@ func main() {
 	last := make(<-chan int)
 	n := 10
 
-	//
 	// напишите ваш код здесь
-	//
 
 	result := <-last
 	if n != result {
