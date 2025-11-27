@@ -16,30 +16,46 @@
 - _func_ - функции (its needed?)
 
 ### concurrency block
-- _channels_ - каналы и concurrency (soon)
-- _goroutines_ - горутины (soon)
-- _mutex_ - мьютексы (soon)
-- _context_ - контекст (soon)
-- _select_ - селект
-- _sync_ - работа с пакетом sync
-- _race cond_ - типичные проблемы и их решения
+- **[concurrency](concurrency/)** - Конкурентность в Go (30 задач)
 
 ### Practice block
-сборник ревью кода с собеседований (soon)
-типовые задачи на написание n-программы с собеседований (soon)
+сборник ревью кода с собеседований (on work now)
+
+## Использование
 
 ```bash
-# Запуск задачи
-go run main.go <тема> <номера_задач>
-
 # Смотри список доступных тем
 go run main.go list
 
-# Запуск одной задачи
-go run main.go slices 3
+# Справка по теме
+go run main.go <тема>
 
-# Запуск нескольких задач
-go run main.go slices 1 5 10
+# Запуск задачи
+go run main.go <тема> <номер>
+
+# Примеры:
+go run main.go slices 3           # задача 3 по слайсам
+go run main.go slices 1 5 10      # несколько задач
+go run main.go concurrency 1      # задача 1 по конкурентности
+```
+
+### Для concurrency задач:
+
+```bash
+# Вариант 1: Напрямую из папки задачи
+cd concurrency/task001/
+go run main.go
+# 1. Изучить код и найти ошибку
+cat main.go
+
+# 2. Попробовать запустить (увидеть ошибку)
+go run main.go
+
+# 3. Исправить код
+nano main.go
+
+# 4. Проверить исправление
+go run main.go
 ```
 
 ## Почитать полезное:

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 
@@ -17,6 +18,7 @@ type Topic struct {
 	Tasks       map[int]func()
 	Count       int
 	Description string
+	IsFileBased bool // для тем где задачи в отдельных файлах
 }
 
 var topics = map[string]Topic{
@@ -43,6 +45,13 @@ var topics = map[string]Topic{
 		Tasks:       structs.GetTasks(),
 		Count:       structs.Count,
 		Description: "Структуры в go",
+	},
+	"concurrency": {
+		Name:        "concurrency",
+		Tasks:       nil,
+		Count:       30,
+		Description: "Конкурентность в go (goroutines, channels, sync)",
+		IsFileBased: true,
 	},
 }
 
@@ -105,16 +114,36 @@ func listTopics() {
 func printTopicHelp(topic Topic) {
 	fmt.Printf("%s\n\n", topic.Description)
 	fmt.Printf("Доступно задач: %d\n\n", topic.Count)
-	fmt.Println("Использование:")
-	fmt.Printf("  go run main.go %s <номер>          - запустить одну задачу\n", topic.Name)
-	fmt.Printf("  go run main.go %s 1 5 10           - запустить несколько задач\n", topic.Name)
-	fmt.Printf("  go run main.go %s all              - запустить все задачи\n", topic.Name)
-	fmt.Println("\nПримеры:")
-	fmt.Printf("  go run main.go %s 1\n", topic.Name)
-	fmt.Printf("  go run main.go %s 1 5 10\n", topic.Name)
+
+	if topic.IsFileBased {
+		fmt.Println("Задачи находятся в отдельных файлах.")
+		fmt.Println("\nИспользование:")
+		fmt.Printf("  cd %s/\n", topic.Name)
+		fmt.Printf("  go run task001.go              - запустить задачу 1\n")
+		fmt.Printf("  go run task002.go              - запустить задачу 2\n")
+		fmt.Println("\nИли используйте:")
+		fmt.Printf("  go run main.go %s <номер>      - автоматически запустит файл задачи\n", topic.Name)
+		fmt.Println("\nПримеры:")
+		fmt.Printf("  go run main.go %s 1\n", topic.Name)
+		fmt.Printf("  go run main.go %s 5\n", topic.Name)
+		fmt.Printf("\nСмотрите %s/README.md для подробного списка задач.\n", topic.Name)
+	} else {
+		fmt.Println("Использование:")
+		fmt.Printf("  go run main.go %s <номер>          - запустить одну задачу\n", topic.Name)
+		fmt.Printf("  go run main.go %s 1 5 10           - запустить несколько задач\n", topic.Name)
+		fmt.Printf("  go run main.go %s all              - запустить все задачи\n", topic.Name)
+		fmt.Println("\nПримеры:")
+		fmt.Printf("  go run main.go %s 1\n", topic.Name)
+		fmt.Printf("  go run main.go %s 1 5 10\n", topic.Name)
+	}
 }
 
 func runTasks(topic Topic, args []string) {
+	if topic.IsFileBased {
+		runFileBasedTasks(topic, args)
+		return
+	}
+
 	for _, arg := range args {
 		num, err := strconv.Atoi(arg)
 		if err != nil || num < 1 || num > topic.Count {
@@ -128,6 +157,32 @@ func runTasks(topic Topic, args []string) {
 
 		if task, ok := topic.Tasks[num]; ok {
 			task()
+		}
+	}
+}
+
+func runFileBasedTasks(topic Topic, args []string) {
+	for _, arg := range args {
+		num, err := strconv.Atoi(arg)
+		if err != nil || num < 1 || num > topic.Count {
+			fmt.Printf("Неверный номер задачи: %s (доступны 1-%d)\n", arg, topic.Count)
+			continue
+		}
+
+		taskDir := fmt.Sprintf("%s/task%03d", topic.Name, num)
+
+		fmt.Println("\n" + strings.Repeat("=", 50))
+		fmt.Printf("ЗАДАЧА %d - %s/main.go\n", num, taskDir)
+		fmt.Println(strings.Repeat("=", 50) + "\n")
+
+		cmd := exec.Command("go", "run", "main.go")
+		cmd.Dir = taskDir
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Stdin = os.Stdin
+
+		if err := cmd.Run(); err != nil {
+			fmt.Printf("Ошибка при запуске задачи: %v\n", err)
 		}
 	}
 }
