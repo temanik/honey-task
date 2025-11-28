@@ -343,7 +343,7 @@ func aj() {
 	x := []int{2, 3, 4}
 	x = append([]int{1}, x...)
 	fmt.Println(x)
-	fmt.Print(len(x), cap(x))
+	fmt.Println(len(x), cap(x))
 }
 
 // ЗАДАЧА 37: Что выведет?
