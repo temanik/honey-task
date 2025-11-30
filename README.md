@@ -19,7 +19,7 @@
 - **[concurrency](concurrency/)** - Конкурентность в Go (30 задач)
 
 ### Practice block
-сборник ревью кода с собеседований (on work now)
+- **[code-review](code-review)** - Код ревью задачи с собеседований(20 задач)
 
 ## Использование
 
@@ -52,6 +52,20 @@ cat main.go
 go run main.go
 
 # 3. Исправить код
+nano main.go
+
+# 4. Проверить исправление
+go run main.go
+```
+
+### Для review задач:
+```bash
+cd code-review/task001
+go run main.go
+# 1. Изучить код и найти ошибку
+cat main.go
+
+# 2. Исправить код
 nano main.go
 
 # 4. Проверить исправление
