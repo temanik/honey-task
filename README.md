@@ -9,7 +9,7 @@
 - **[maps](maps/)** - Maps в Go (50 задач)
 - **[pointers](pointers/)** - Указатели в Go (50 задач)
 - **[structs](structs/)** - Структуры в Go (50 задач)
-- _interfaces_ - интерфейсы (soon)
+- **[interface](interface/)** - Интерфейсы в Go (30 задач)
 - _defer|panic|recover_ - механизмы восстановления (soon)
 - _errors_ - ошибки (soon)
 - _strings_ - строки (its needed?)
@@ -56,6 +56,17 @@ nano main.go
 
 # 4. Проверить исправление
 go run main.go
+```
+
+### Для interface задач:
+```bash
+# Вариант 1: Напрямую из папки задачи
+cd interface/task001/
+cat main.go  # изучить интерфейсы
+# Реализовать требуемые интерфейсы и структуры
+
+# Вариант 2: Через main.go
+go run main.go interface 1
 ```
 
 ### Для review задач:

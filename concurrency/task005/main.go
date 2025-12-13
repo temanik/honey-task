@@ -31,7 +31,8 @@ func main() {
 	wg := sync.WaitGroup{}
 
 	multiplier := func(x int) int {
-	return x * 10
-}
+		return x * 10
+	}
 
-// напишите ваш код здесь
+	// напишите ваш код здесь
+}

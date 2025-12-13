@@ -46,6 +46,13 @@ var topics = map[string]Topic{
 		Count:       structs.Count,
 		Description: "Структуры в go",
 	},
+	"interface": {
+		Name:        "interface",
+		Tasks:       nil,
+		Count:       30,
+		Description: "Интерфейсы в go (реализация паттернов и систем)",
+		IsFileBased: true,
+	},
 	"concurrency": {
 		Name:        "concurrency",
 		Tasks:       nil,
