@@ -10,6 +10,7 @@
 - **[pointers](pointers/)** - Указатели в Go (50 задач)
 - **[structs](structs/)** - Структуры в Go (50 задач)
 - **[interface](interface/)** - Интерфейсы в Go (30 задач)
+- **[algo](algo/)** - Алго задачи с собеседований Go(10 задач)
 - _defer|panic|recover_ - механизмы восстановления (soon)
 - _errors_ - ошибки (soon)
 - _strings_ - строки (its needed?)
@@ -20,6 +21,8 @@
 
 ### Practice block
 - **[code-review](code-review)** - Код ревью задачи с собеседований(20 задач)
+### Algo block
+- **[algo](algo/)** - Алго задачи(10 задач)
 
 ## Использование
 
