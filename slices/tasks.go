@@ -29,9 +29,9 @@ func a() {
 	x = append(x, 2)
 	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))
 	y := append(x, 3)
-	fmt.Println("y = ", x, "len: ", len(x), "cap: ", cap(x))
+	fmt.Println("y = ", y, "len: ", len(y), "cap: ", cap(y))
 	z := append(x, 4)
-	fmt.Println("z = ", x, "len: ", len(x), "cap: ", cap(x))
+	fmt.Println("z = ", z, "len: ", len(z), "cap: ", cap(z))
 	fmt.Println(y, z)
 }
 
