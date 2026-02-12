@@ -40,3 +40,35 @@ type Producer interface {
 type Consumer interface {
 	Process(items []any) error
 }
+
+func Pipe(p Producer, c Consumer) error {
+	var batch []any
+	var cookies []int
+
+	for {
+		items, cookie, err := p.Next()
+		if err != nil {
+			return err
+		}
+
+		batch = append(batch, items...)
+		cookies = append(cookies, cookie)
+
+		if len(batch) < MaxItems {
+			continue
+		}
+
+		if err = c.Process(batch[:MaxItems]); err != nil {
+			return err
+		}
+
+		for i := 0; i < MaxItems; i++ {
+			if err = p.Commit(cookies[i]); err != nil {
+				return err
+			}
+		}
+
+		cookies = cookies[MaxItems:]
+		batch = batch[MaxItems:]
+	}
+}
