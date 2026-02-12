@@ -21,18 +21,18 @@ func GetTasks() map[int]func() {
 // ЗАДАЧА 1 Что выведет?
 func a() {
 	x := []int{}
-	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))
+	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x)) // [] 0 0
 	x = append(x, 0)
-	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))
+	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x)) // [0] 1 1
 	x = append(x, 1)
-	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))
+	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x)) // [01] 2 2
 	x = append(x, 2)
-	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))
-	y := append(x, 3)
-	fmt.Println("y = ", y, "len: ", len(y), "cap: ", cap(y))
-	z := append(x, 4)
-	fmt.Println("z = ", z, "len: ", len(z), "cap: ", cap(z))
-	fmt.Println(y, z)
+	fmt.Println("x = ", x, "len: ", len(x), "cap: ", cap(x))             // [012] 3 4
+	y := append(x, 3)                                                    // baseArr [0123]; len(x) = 3; cap(x) = 4
+	fmt.Println("y = ", y, "len: ", len(y), "cap: ", cap(y))             // [0123] 4 4
+	z := append(x, 4)                                                    // baseArr [0124]; len(x) = 3; cap(x) = 4
+	fmt.Println("z = ", z, "len: ", len(z), "cap: ", cap(z))             // [0124] 4 4
+	fmt.Println(x, len(x), cap(x), y, len(y), cap(y), z, len(y), cap(z)) //[012] 3 4; [0124] 4 4; [0124] 4 4
 }
 
 // ЗАДАЧА 2: Что выведет?
