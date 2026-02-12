@@ -9,8 +9,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -41,9 +43,33 @@ func fakeDownload(url string) Result {
 
 // download - параллельно скачивает данные из urls
 func download(urls []string) ([]string, error) {
-	// напишите ваш код здесь
-	return nil, nil
+	var wg sync.WaitGroup
 
+	rs := make([]string, len(urls))
+	errs := make([]error, len(urls))
+
+	wg.Add(len(urls))
+
+	for i, url := range urls {
+		go func(i int, url string) {
+			defer wg.Done()
+			res := fakeDownload(url)
+
+			rs[i] = res.msg
+			errs[i] = res.err
+		}(i, url)
+	}
+
+	wg.Wait()
+
+	var collected []error
+	for _, e := range errs {
+		if e != nil {
+			collected = append(collected, e)
+		}
+	}
+
+	return rs, errors.Join(collected...)
 }
 
 func main() {
@@ -57,5 +83,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(msgs)
+	fmt.Println(msgs, err)
 }
