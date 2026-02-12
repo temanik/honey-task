@@ -22,13 +22,34 @@ func main() {
 }
 
 func generator(ctx context.Context, in ...int) <-chan int {
-	// напишите ваш код здесь
+	ch := make(chan int)
 
-	return nil
+	go func() {
+		defer close(ch)
+		for _, v := range in {
+			if err := ctx.Err(); err != nil {
+				return
+			}
+			ch <- v
+		}
+	}()
 
+	return ch
 }
 
 func squarer(ctx context.Context, in <-chan int) <-chan int {
-	// напишите ваш код здесь
-	return nil
+	ch := make(chan int)
+
+	go func() {
+		defer close(ch)
+		for v := range in {
+			select {
+			case <-ctx.Done():
+				return
+			case ch <- v * v:
+			}
+		}
+	}()
+
+	return ch
 }
