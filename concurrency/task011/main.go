@@ -36,9 +36,35 @@ func main() {
 }
 
 func bridge(ctx context.Context, ins <-chan <-chan interface{}) <-chan interface{} {
-	// напишите ваш код здесь
-	return nil
+	out := make(chan interface{})
 
+	go func() {
+		defer close(out)
+
+		for {
+			var in <-chan interface{}
+			var ok bool
+
+			select {
+			case <-ctx.Done():
+				return
+			case in, ok = <-ins:
+				if !ok {
+					return
+				}
+			}
+
+			for v := range orDone(ctx, in) {
+				select {
+				case <-ctx.Done():
+					return
+				case out <- v:
+				}
+			}
+		}
+	}()
+
+	return out
 }
 
 func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {

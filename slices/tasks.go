@@ -39,19 +39,19 @@ func a() {
 func b() {
 	var x []int
 	y := []int{}
-	fmt.Println(x == nil, y == nil)
-	fmt.Println(len(x), len(y))
-	fmt.Println(cap(x), cap(y))
+	fmt.Println(x == nil, y == nil) // true, false
+	fmt.Println(len(x), len(y))     // 0 0
+	fmt.Println(cap(x), cap(y))     // 0 0
 }
 
 // ЗАДАЧА 3: Что выведет?
 func c() {
 	x := make([]int, 0, 5)
-	fmt.Println(len(x), cap(x))
+	fmt.Println(len(x), cap(x)) // 0 5
 	x = append(x, 1, 2, 3)
-	fmt.Println(len(x), cap(x))
+	fmt.Println(len(x), cap(x)) // 3 5
 	x = append(x, 4, 5, 6)
-	fmt.Println(len(x), cap(x))
+	fmt.Println(len(x), cap(x)) // 6 10
 }
 
 // ЗАДАЧА 4: Что выведет?
@@ -59,17 +59,18 @@ func d() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:3]
 	y[0] = 100
-	fmt.Println(x)
-	fmt.Println(y)
+	fmt.Println(x) // [1, 100, 3, 4, 5]
+	fmt.Println(y) // [100, 3]
 }
 
 // ЗАДАЧА 5: Что выведет?
 func e() {
 	x := []int{1, 2, 3, 4, 5}
 	y := x[1:3]
+	fmt.Println(y, len(y), cap(y))
 	y = append(y, 100)
-	fmt.Println(x)
-	fmt.Println(y)
+	fmt.Println(x, len(x), cap(x)) // [1,2,3,100,5]
+	fmt.Println(y, len(y), cap(y)) // [2,3,100]
 }
 
 // ЗАДАЧА 6: Что выведет?

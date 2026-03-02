@@ -35,9 +35,30 @@ func main() {
 }
 
 func tee(ctx context.Context, in <-chan interface{}) (_, _ <-chan interface{}) {
-	// напишите ваш код здесь
-	return nil, nil
+	out1 := make(chan interface{})
+	out2 := make(chan interface{})
 
+	go func() {
+		defer close(out1)
+		defer close(out2)
+
+		for v := range orDone(ctx, in) {
+			outCh1, outCh2 := out1, out2
+
+			for range 2 {
+				select {
+				case <-ctx.Done():
+					return
+				case outCh1 <- v:
+					outCh1 = nil
+				case outCh2 <- v:
+					outCh2 = nil
+				}
+			}
+		}
+	}()
+
+	return out1, out2
 }
 
 func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {

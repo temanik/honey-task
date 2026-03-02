@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*
 Дан набор пар городов:
 - между каждой парой городов сотрудник совершил прямой перелёт;
@@ -18,7 +20,7 @@ package main
 [("Москва", "Белград"), ("Москва", "Ереван")] -> ["Ереван", "Москва", "Белград"]
 
 [("Рим", "Белград), ("Москва", "Белград"), ("Москва", "Ереван")]
-  -> ["Ереван", "Москва", "Белград", "Рим"]
+-> ["Ереван", "Москва", "Белград", "Рим"]
 
 */
 // В этой задаче можно решить без графов
@@ -26,5 +28,43 @@ package main
 type Flight = [2]string
 
 func GetRoute(flights []Flight) []string {
-	// Your code here
+	start := ""
+	dur := make(map[string][]string)
+
+	for _, flight := range flights {
+		dur[flight[0]] = append(dur[flight[0]], flight[1])
+		dur[flight[1]] = append(dur[flight[1]], flight[0])
+	}
+
+	for k, v := range dur {
+		if len(v) == 1 {
+			start = k
+			break
+		}
+	}
+
+	route := make([]string, 0, len(flights)+1)
+	prev := ""
+	cur := start
+
+	for cur != "" {
+		route = append(route, cur)
+
+		var next string
+		for _, nei := range dur[cur] {
+			if nei != prev {
+				next = nei
+				break
+			}
+		}
+
+		prev, cur = cur, next
+	}
+
+	return route
+}
+
+func main() {
+	flights := []Flight{{"Рим", "Белград"}, {"Москва", "Белград"}, {"Москва", "Ереван"}}
+	fmt.Printf("%#v", GetRoute(flights))
 }

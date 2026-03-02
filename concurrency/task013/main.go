@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"reflect"
@@ -40,6 +41,30 @@ fff
 }
 
 func ConcurrentSortHead(m int, files ...io.Reader) ([]string, error) {
-	// напишите ваш код здесь
+	fLen := len(files)
+	strChans := make([]chan string, 0, fLen)
+	strs := make([]string, 0, fLen)
+
+	for i := range fLen {
+		go func(i int) {
+			scanner := bufio.NewScanner(files[i])
+			ch := make(chan string)
+			strChans[i] = ch
+
+			for scanner.Scan() {
+				strChans[i] <- scanner.Text()
+			}
+		}(i)
+	}
+
+	for i := range fLen {
+		s := <-strChans[i]
+		strs = append(strs, s)
+
+	}
+
+	for range m {
+	}
+
 	return nil, nil
 }

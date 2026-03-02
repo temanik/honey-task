@@ -21,3 +21,22 @@ cities = ['Москва', 'Казань', 'Тула']
     4: [Москва, Казань, Тула],
 }
 */
+
+func filter(sellers map[int][]string, cities []string) map[int][]string {
+	res := make(map[int][]string, len(sellers))
+	set := make(map[string]struct{}, len(cities))
+
+	for _, city := range cities {
+		set[city] = struct{}{}
+	}
+
+	for id, cs := range sellers {
+		for _, city := range cs {
+			if _, exists := set[city]; exists {
+				res[id] = append(res[id], city)
+			}
+		}
+	}
+
+	return res
+}

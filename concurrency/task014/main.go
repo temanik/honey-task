@@ -6,6 +6,7 @@ package main
 
 import (
 	"errors"
+	"sync"
 )
 
 type fn func() error
@@ -26,6 +27,23 @@ func main() {
 }
 
 func Run(fs ...fn) error {
-	// напишите ваш код здесь
-	return nil
+	var wg sync.WaitGroup
+	var once sync.Once
+	var err error
+
+	wg.Add(len(fs))
+	for _, f := range fs {
+		go func(f fn) {
+			defer wg.Done()
+
+			if e := f(); e != nil {
+				once.Do(func() {
+					err = e
+				})
+			}
+		}(f)
+	}
+
+	wg.Wait()
+	return err
 }

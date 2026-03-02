@@ -27,8 +27,19 @@ func main() {
 }
 
 func executeTaskWithTimeout(ctx context.Context) error {
-	// напишите ваш код здесь
-	return nil
+	done := make(chan struct{}, 1)
+
+	go func() {
+		executeTask()
+		done <- struct{}{}
+	}()
+
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-done:
+		return nil
+	}
 }
 
 func executeTask() {

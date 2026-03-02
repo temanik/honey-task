@@ -9,26 +9,40 @@ import (
 )
 
 type ringBuffer struct {
-	// напишите ваш код
+	buff   chan int
+	closed bool
 }
 
 func newRingBuffer(size int) *ringBuffer {
-	// напишите ваш код
-	return nil
+	return &ringBuffer{
+		buff:   make(chan int, size),
+		closed: false,
+	}
 }
 
 func (b *ringBuffer) write(v int) {
-	// напишите ваш код
+	if b.closed {
+		return
+	}
+
+	select {
+	case b.buff <- v:
+	default:
+		<-b.buff
+		b.buff <- v
+	}
 }
 
 func (b *ringBuffer) close() {
-	// напишите ваш код
+	if !b.closed {
+		b.closed = true
+	}
+	close(b.buff)
 }
 
 func (b *ringBuffer) read() (v int, ok bool) {
-	// напишите ваш код
+	v, ok = <-b.buff
 	return
-
 }
 
 func main() {

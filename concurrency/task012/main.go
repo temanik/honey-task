@@ -11,6 +11,7 @@ package main
 import (
 	"context"
 	"errors"
+	"sync"
 )
 
 type waiter interface {
@@ -19,22 +20,50 @@ type waiter interface {
 }
 
 type waitGroup struct {
-	// напишите ваш код здесь
+	mu     sync.Mutex
+	wg     sync.WaitGroup
+	bucket chan struct{}
+	err    error
 }
 
 func (g *waitGroup) wait() error {
-	// напишите ваш код здесь
-	return nil
+	g.wg.Wait()
+	return g.err
 }
 
 func (g *waitGroup) run(ctx context.Context, fn func(ctx context.Context) error) {
-	// напишите ваш код здесь
+	select {
+	case <-ctx.Done():
+	case g.bucket <- struct{}{}:
+	}
+
+	g.wg.Add(1)
+	go func() {
+		defer func() {
+			<-g.bucket
+			g.wg.Done()
+		}()
+
+		err := fn(ctx)
+		if err != nil {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			if g.err == nil {
+				g.err = err
+			} else {
+				g.err = errors.Join(g.err, err)
+			}
+		}
+	}()
+
 	return
 }
 
 func newGroupWait(maxParallel int) waiter {
-	// напишите ваш код здесь
-	return nil
+	return &waitGroup{
+		bucket: make(chan struct{}, maxParallel),
+	}
 }
 
 func main() {

@@ -8,3 +8,16 @@ stats = [{server: 1, stability: 99}, {server: 2, stability: 97}, {server: 3, sta
 // out
 { 34: [ 3 ], 97: [ 2, 4 ], 99: [ 1 ], 97.1: [ 5 ] }
 */
+
+func fn(s []struct {
+	server    int
+	stability float64
+}) map[float64][]int {
+	m := make(map[float64][]int)
+
+	for _, v := range s {
+		m[v.stability] = append(m[v.stability], v.server)
+	}
+
+	return m
+}

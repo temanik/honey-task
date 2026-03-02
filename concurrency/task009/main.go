@@ -10,8 +10,29 @@ import (
 )
 
 func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {
-	return nil
-	// напишите ваш код здесь
+	out := make(chan interface{})
+
+	go func() {
+		defer close(out)
+
+		for {
+			select {
+			case v, ok := <-in:
+				if !ok {
+					return
+				}
+				select {
+				case out <- v:
+				case <-ctx.Done():
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+
+	return out
 }
 
 func main() {

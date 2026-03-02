@@ -11,6 +11,7 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -32,14 +33,40 @@ func fakeSearch(kind string) searh {
 }
 
 func getFirstResult(ctx context.Context, replicas replicas) *result {
-	// напишите ваш код здесь
-	return nil
+	resChan := make(chan *result, len(replicas))
 
+	for _, search := range replicas {
+		go func() {
+			resChan <- search()
+		}()
+	}
+
+	var res *result
+	select {
+	case <-ctx.Done():
+		res = &result{
+			err: ctx.Err(),
+		}
+		return res
+	case res = <-resChan:
+		return res
+	}
 }
 
 func getResults(ctx context.Context, replicaKinds []replicas) []*result {
-	// напишите ваш код здесь
-	return nil
+	results := make([]*result, len(replicaKinds))
+	var wg sync.WaitGroup
+
+	wg.Add(len(replicaKinds))
+	for i, k := range replicaKinds {
+		go func() {
+			defer wg.Done()
+			results[i] = getFirstResult(ctx, k)
+		}()
+	}
+
+	wg.Wait()
+	return results
 }
 
 func main() {
