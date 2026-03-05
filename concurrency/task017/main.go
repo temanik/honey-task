@@ -15,16 +15,20 @@ type Group struct {
 }
 
 func New(size int) *Group {
-	// напишите ваш код здесь
-	return nil
+	return &Group{
+		c:    make(chan struct{}, size),
+		size: size,
+	}
 }
 
 func (s *Group) Done() {
-	// напишите ваш код здесь
+	s.c <- struct{}{}
 }
 
 func (s *Group) Wait() {
-	// напишите ваш код здесь
+	for i := 0; i < s.size; i++ {
+		<-s.c
+	}
 }
 
 func main() {

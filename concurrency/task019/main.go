@@ -20,16 +20,24 @@ import (
 const goroutinesNumber = 10
 
 type once struct {
-	// напишите ваш код здесь
+	ch chan struct{}
 }
 
 func new() *once {
-	// напишите ваш код здесь
-	return nil
+	ch := make(chan struct{}, 1)
+	ch <- struct{}{}
+
+	return &once{
+		ch: ch,
+	}
 }
 
 func (o *once) do(f func()) {
-	// напишите ваш код здесь
+	select {
+	case <-o.ch:
+		f()
+	default:
+	}
 }
 
 func funcToCall() {

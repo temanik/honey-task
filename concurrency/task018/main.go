@@ -9,7 +9,7 @@
 // - должна создать канал pipe
 // - запустить produceCount функций produce и начать читать из канала pipe, печатая каждое число
 // - при получении числа produceStop из pipe должна перестать читать новые числа из канала и должна отправить
-//   сигнал в функции produce, заверщающий их работу
+//   сигнал в функции produce, завершающий их работу
 // - должна дождаться всех сообщений "produce finished" и напечатать "main finished"
 // Для реализации требований допускается добавить дополнительные аргументы в функцию produce
 //
@@ -22,7 +22,10 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"sync"
+	"time"
 )
 
 const (
@@ -30,12 +33,42 @@ const (
 	produceStop  = 10
 )
 
-func produce(pipe chan<- int, wg *sync.WaitGroup) { // допускается добавить доп. аргументы
-	// напишите свой код здесь
+func produce(ctx context.Context, pipe chan<- int, wg *sync.WaitGroup) { // допускается добавить доп. аргументы
+	defer wg.Done()
+	num := 0
 
+	for {
+		select {
+		case <-ctx.Done():
+			time.Sleep(3 * time.Second)
+			fmt.Println("produce finished")
+			return
+		case pipe <- num:
+			num++
+		}
+	}
 }
 
 func main() {
-	// напишите свой код здесь
+	pipe := make(chan int)
+	var wg sync.WaitGroup
+	ctx, cancel := context.WithCancel(context.Background())
 
+	wg.Add(produceCount)
+	for range produceCount {
+		go produce(ctx, pipe, &wg)
+	}
+
+	for {
+		num := <-pipe
+		fmt.Println(num)
+
+		if num >= produceStop {
+			cancel()
+			break
+		}
+	}
+
+	wg.Wait()
+	fmt.Println("main finished")
 }

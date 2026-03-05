@@ -10,6 +10,7 @@ import (
 func run() {
 	ch := make(chan string)
 	go func() {
+		// никто не закрывает канал, горутина зависнет навсегда
 		for m := range ch {
 			fmt.Println("processed:", m)
 		}

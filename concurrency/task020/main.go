@@ -10,9 +10,55 @@ import (
 	"time"
 )
 
+func orGPT(channels ...<-chan interface{}) <-chan interface{} {
+	switch len(channels) {
+	case 0:
+		return nil
+	case 1:
+		return channels[0]
+	}
+
+	out := make(chan interface{})
+
+	go func() {
+		defer close(out)
+
+		select {
+		case <-channels[0]:
+		case <-channels[1]:
+		case <-or(channels[2:]...):
+		}
+	}()
+
+	return out
+}
+
 func or(channels ...<-chan interface{}) <-chan interface{} {
-	// напишите ваш код здесь
-	return nil
+	if len(channels) == 0 {
+		return nil
+	}
+
+	out := make(chan interface{})
+	done := make(chan struct{}, 1)
+	done <- struct{}{}
+
+	for _, ch := range channels {
+		go func(ch <-chan interface{}) {
+			select {
+			case <-ch:
+			case <-out:
+				return
+			}
+
+			select {
+			case <-done:
+				close(out)
+			default:
+			}
+		}(ch)
+	}
+
+	return out
 }
 
 func main() {

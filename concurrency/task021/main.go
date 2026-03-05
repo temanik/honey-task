@@ -20,6 +20,7 @@ func main() {
 		}(i)
 	}
 
+	// тут будет бесконечный цикл
 	for {
 		select {
 		case v := <-c:

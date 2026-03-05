@@ -11,13 +11,16 @@ import (
 
 func main() {
 	var wg sync.WaitGroup
+	var mu sync.Mutex
 	data := []int{}
 
 	for i := 0; i < 100; i++ {
 		wg.Add(1)
 		go func(val int) {
 			defer wg.Done()
+			mu.Lock()
 			data = append(data, val)
+			mu.Unlock()
 		}(i)
 	}
 
