@@ -6,6 +6,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"io"
 	"reflect"
@@ -13,14 +14,14 @@ import (
 )
 
 func main() {
-	f1 := `aaa
-ddd
-`
-	f2 := `bbb
+	f1 := `bbb
 eee
 `
-	f3 := `ccc
+	f2 := `aaa
 fff
+`
+	f3 := `ccc
+ddd
 `
 
 	files := []io.Reader{
@@ -41,30 +42,107 @@ fff
 }
 
 func ConcurrentSortHead(m int, files ...io.Reader) ([]string, error) {
-	fLen := len(files)
-	strChans := make([]chan string, 0, fLen)
-	strs := make([]string, 0, fLen)
+	if m <= 0 || len(files) == 0 {
+		return []string{}, nil
+	}
 
-	for i := range fLen {
+	n := len(files)
+	channels := make([]chan string, n)
+	errCh := make(chan error, n)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// создаём буферизированные каналы
+	for i := 0; i < n; i++ {
+		channels[i] = make(chan string, 1)
+	}
+
+	// запускаем читателей
+	for i := 0; i < n; i++ {
 		go func(i int) {
-			scanner := bufio.NewScanner(files[i])
-			ch := make(chan string)
-			strChans[i] = ch
+			defer close(channels[i])
 
+			scanner := bufio.NewScanner(files[i])
 			for scanner.Scan() {
-				strChans[i] <- scanner.Text()
+				select {
+				case channels[i] <- scanner.Text():
+				case <-ctx.Done():
+					return
+				}
+			}
+
+			if err := scanner.Err(); err != nil {
+				select {
+				case errCh <- err:
+				default:
+				}
 			}
 		}(i)
 	}
 
-	for i := range fLen {
-		s := <-strChans[i]
-		strs = append(strs, s)
+	result := make([]string, 0, m)
+	curr := make([]string, n)
+	active := make([]bool, n)
 
+	// читаем первую строку из каждого канала
+	for i := 0; i < n; i++ {
+		select {
+		case err := <-errCh:
+			return nil, err
+		case s, ok := <-channels[i]:
+			if ok {
+				curr[i] = s
+				active[i] = true
+			}
+		}
 	}
 
-	for range m {
+	for len(result) < m {
+		// проверяем ошибки
+		select {
+		case err := <-errCh:
+			cancel()
+			return nil, err
+		default:
+		}
+
+		minIdx := -1
+		var minVal string
+
+		for i := 0; i < n; i++ {
+			if !active[i] {
+				continue
+			}
+			if minIdx == -1 || curr[i] < minVal {
+				minIdx = i
+				minVal = curr[i]
+			}
+		}
+
+		if minIdx == -1 {
+			break // больше строк нет
+		}
+
+		result = append(result, minVal)
+
+		// читаем следующую строку только из выбранного канала
+		select {
+		case err := <-errCh:
+			cancel()
+			return nil, err
+		case s, ok := <-channels[minIdx]:
+			if ok {
+				curr[minIdx] = s
+			} else {
+				active[minIdx] = false
+			}
+		case <-ctx.Done():
+			return result, nil
+		}
 	}
 
-	return nil, nil
+	// досрочно отменяем оставшиеся горутины
+	cancel()
+	return result, nil
 }

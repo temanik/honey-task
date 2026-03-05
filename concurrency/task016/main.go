@@ -10,7 +10,16 @@ func main() {
 	last := make(<-chan int)
 	n := 10
 
-	// напишите ваш код здесь
+	start := make(chan int, 1)
+	start <- 0
+	close(start)
+
+	last = start
+
+	for range n {
+		out := inc(last)
+		last = out
+	}
 
 	result := <-last
 	if n != result {
@@ -19,6 +28,14 @@ func main() {
 }
 
 func inc(in <-chan int) <-chan int {
-	// напишите ваш код здесь
-	return nil
+	out := make(chan int)
+
+	go func() {
+		defer close(out)
+		for v := range in {
+			out <- v + 1
+		}
+	}()
+
+	return out
 }
