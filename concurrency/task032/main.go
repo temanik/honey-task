@@ -21,5 +21,18 @@ func randomTimeWork() {
 // необходимо написать обёртку над этой функцией, которая будет прерывать выполнение,
 // если функция будет работать дольше 3х секунд и возвращать ошибку
 func predictableTimeWork(fn func()) error {
-	return nil
+	var err error
+	done := make(chan struct{})
+
+	go func() {
+		fn()
+		done <- struct{}{}
+	}()
+
+	select {
+	case <-done:
+	case <-time.After(3 * time.Second):
+		err = fmt.Errorf("timeout")
+	}
+	return err
 }

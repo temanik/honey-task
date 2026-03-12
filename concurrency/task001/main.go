@@ -17,16 +17,42 @@ package main
 
 import (
 	"fmt"
+	"sync/atomic"
 )
 
 // merge - соединяет каналы в один
 func merge(cs ...<-chan int) <-chan int {
-	return nil
+	out := make(chan int)
+	count := &atomic.Int32{}
+	length := int32(len(cs))
+
+	for _, c := range cs {
+		go func() {
+			defer func() {
+				count.Add(1)
+				if count.Load() == length {
+					close(out)
+				}
+			}()
+
+			for val := range c {
+				out <- val
+			}
+		}()
+	}
+
+	return out
 }
 
 // fillChan - заполняет канал числами от 0 до n-1
 func fillChan(n int) <-chan int {
-	return nil
+	out := make(chan int, n)
+
+	for i := range n {
+		out <- i
+	}
+	close(out)
+	return out
 }
 
 func main() {

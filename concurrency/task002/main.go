@@ -9,8 +9,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -41,9 +43,35 @@ func fakeDownload(url string) Result {
 
 // download - параллельно скачивает данные из urls
 func download(urls []string) ([]string, error) {
-	// напишите ваш код здесь
-	return nil, nil
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	results := make([]string, len(urls))
+	var err error
 
+	wg.Add(len(urls))
+	for i, url := range urls {
+		// Передаём i и url как аргументы горутины, чтобы избежать захвата переменных цикла
+		go func(i int, url string) {
+			defer wg.Done()
+
+			res := fakeDownload(url)
+
+			// Мьютекс защищает как запись в results, так и обновление err
+			mu.Lock()
+			defer mu.Unlock()
+
+			if res.err != nil {
+				// Добавляем ошибку в общий список
+				err = errors.Join(err, res.err)
+			} else {
+				// Сохраняем результат по нужному индексу
+				results[i] = res.msg
+			}
+		}(i, url)
+	}
+
+	wg.Wait()
+	return results, err
 }
 
 func main() {
