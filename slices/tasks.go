@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-const Count = 50
+const Count = 51
 
 func GetTasks() map[int]func() {
 	return map[int]func(){
@@ -15,6 +15,7 @@ func GetTasks() map[int]func() {
 		21: u, 22: v, 23: w, 24: x, 25: y, 26: z, 27: aa, 28: ab, 29: ac, 30: ad,
 		31: ae, 32: af, 33: ag, 34: ah, 35: ai, 36: aj, 37: ak, 38: al, 39: am, 40: an,
 		41: ao, 42: ap, 43: aq, 44: ar, 45: as, 46: at, 47: au, 48: av, 49: aw, 50: ax,
+		51: az,
 	}
 }
 
@@ -487,4 +488,21 @@ func ax() {
 	y = append(y, 100)
 	fmt.Println(x)
 	fmt.Println(y)
+}
+
+// ЗАДАЧА 51: Что выведет?
+func az() {
+	a := []int{}
+	a = append(a, []int{1, 2, 3}...)
+
+	fmt.Println("cap a: ", cap(a))
+
+	b := append(a, 4)
+	c := append(a, 5)
+
+	c[1] = 0
+
+	fmt.Println("a:", a)
+	fmt.Println("b:", b)
+	fmt.Println("c:", c)
 }
